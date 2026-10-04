@@ -1,24 +1,33 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-cream: #f8f3ea;
-  --color-sand: #ece3d3;
+  --color-cream: #faf6ef;
+  --color-sand: #efe6d6;
   --color-ink: #1f2a24;
   --color-moss: #2f4a3a;
-  --color-clay: #b8643c;
-  --color-mist: #6b7770;
+  --color-clay: #a95a33;
+  --color-mist: #55615a;
   --font-serif: var(--font-fraunces), Georgia, serif;
   --font-sans: var(--font-inter), system-ui, sans-serif;
 }
 
 html { scroll-behavior: smooth; }
 body { background: var(--color-cream); color: var(--color-ink); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
-h1, h2, h3 { font-family: var(--font-serif); letter-spacing: -0.01em; }
+h1, h2, h3 { font-family: var(--font-serif); letter-spacing: -0.015em; }
+:focus-visible { outline: 2px solid var(--color-clay); outline-offset: 3px; border-radius: 6px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
 
 @layer components {
-  .btn { @apply inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-medium transition active:scale-[0.98] disabled:opacity-50; }
+  .btn { @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 text-sm font-medium transition active:scale-[0.98] disabled:opacity-50; }
   .btn-primary { @apply bg-moss text-cream hover:bg-ink; }
   .btn-ghost { @apply border border-moss/30 text-moss hover:border-moss hover:bg-moss/5; }
-  .field { @apply w-full rounded-xl border border-ink/15 bg-white px-4 py-3 text-sm outline-none focus:border-moss; }
-  .container-x { @apply mx-auto w-full max-w-6xl px-5; }
+  .field { @apply min-h-12 w-full rounded-xl border border-ink/20 bg-white px-4 py-3 text-base outline-none focus:border-moss sm:text-sm; }
+  .container-x { @apply mx-auto w-full max-w-6xl px-4 sm:px-6; }
+  .eyebrow { @apply text-xs font-semibold uppercase tracking-[0.22em] text-clay; }
+  /* Horizontal scroll rail: swipeable on mobile, a normal grid from md up. */
+  .rail { @apply -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 sm:-mx-6 sm:px-6 md:mx-0 md:grid md:grid-cols-4 md:overflow-visible md:px-0 md:pb-0; scrollbar-width: none; }
+  .rail::-webkit-scrollbar { display: none; }
+  .rail > * { @apply w-[64%] shrink-0 snap-start sm:w-[42%] md:w-auto; }
+  .rail-3 { @apply md:grid-cols-3; }
+  .rail-3 > * { @apply w-[80%] sm:w-[46%] md:w-auto; }
 }

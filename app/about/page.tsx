@@ -1,29 +1,36 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 
-export const metadata: Metadata = { title: 'Our story' }
+export const metadata: Metadata = {
+  title: 'Our story: why we make skincare for Indian weather',
+  description: 'Ojas makes simple, honest skincare for heat, humidity and pollution, with every active and percentage on the pack.',
+  alternates: { canonical: '/about' },
+}
 
 const principles = [
-  ['Ingredients you can read', 'We list every active and its percentage. If an ingredient is not doing a job, it is not in the bottle.'],
-  ['Made for our climate', 'Most skincare is designed for cold, dry Western weather. Ours is tested for monsoon humidity, summer heat and city air.'],
-  ['Fewer steps, better habits', 'A routine you follow beats a 10-step one you abandon. We keep it to cleanse, treat, moisturise, protect.'],
-  ['No fear-selling', 'We will never tell you your skin is broken. Skincare should feel calm.'],
+  ['Ingredients you can read', 'We print every active and its percentage on the pack and on the product page, so you can compare us properly with anyone else.'],
+  ['Designed for our climate', 'Most skincare is designed for cold, dry weather. We favour gels, fluids and light creams that stay comfortable in heat and humidity.'],
+  ['Fewer steps, better habits', 'A routine you follow beats a ten-step one you abandon. We keep it to four: cleanse, treat, moisturise, protect.'],
+  ['No fear-selling', 'We will not tell you your skin is broken or promise overnight results. Skincare should feel calm and honest.'],
 ]
 
 export default function About() {
   return (
-    <div className="container-x max-w-3xl py-16">
-      <p className="text-sm uppercase tracking-[0.25em] text-clay">Our story</p>
-      <h1 className="mt-3 text-5xl text-moss">Ojas means radiance from within.</h1>
+    <div className="container-x max-w-3xl py-14 md:py-20">
+      <p className="eyebrow">Our story</p>
+      <h1 className="mt-3 text-4xl text-moss md:text-5xl">Ojas is the Sanskrit word for radiance from within.</h1>
       <p className="mt-6 text-lg leading-relaxed text-mist">
-        We started Ojas because good skincare in India was either imported and expensive, or cheap and confusing. We wanted a middle path: effective formulas, clear labels and fair prices, for the skin and weather we actually live with.
+        Good skincare in India tends to be either imported and expensive, or inexpensive and confusing. We are building a middle path: effective formulas, clear labels and fair prices, made for the skin and the weather we actually live with.
       </p>
       <div className="mt-12 grid gap-8 sm:grid-cols-2">
         {principles.map(([t, d]) => (
           <div key={t}><h2 className="text-xl text-moss">{t}</h2><p className="mt-2 text-sm leading-relaxed text-mist">{d}</p></div>
         ))}
       </div>
-      <Link href="/shop" className="btn btn-primary mt-12">Shop the range</Link>
+      <p className="mt-12 rounded-2xl bg-sand/60 p-5 text-sm text-mist">
+        We are a new brand and our first batch is open for pre-order. We would rather tell you that plainly than pretend to a history we do not have.
+      </p>
+      <Link href="/shop" className="btn btn-primary mt-8">Shop the range</Link>
     </div>
   )
 }

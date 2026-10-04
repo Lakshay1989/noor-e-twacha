@@ -1,88 +1,129 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
-import { bySlug, products } from '@/data/products'
+import { bySlug, products, separatePrice, concernLabels } from '@/data/products'
+import { brand, commerce, whatsappLink } from '@/config/brand'
 import { formatMoney } from '@/lib/money'
-import { ProductArt } from '@/components/ProductArt'
 import { ProductCard } from '@/components/ProductCard'
+import { ProductGallery } from '@/components/ProductGallery'
+import { ProductArt } from '@/components/ProductArt'
 import { AddToCart } from '@/components/AddToCart'
+import { Price } from '@/components/Price'
+import { JsonLd } from '@/components/JsonLd'
 
 export const generateStaticParams = () => products.map((p) => ({ slug: p.slug }))
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const p = bySlug((await params).slug)
-  return p ? { title: p.name, description: p.short } : {}
+  if (!p) return {}
+  const title = `${p.name}, ${p.size}`
+  const description = `${p.tagline} ${p.keyActives.join(', ')}. ${formatMoney(p.price)} with free shipping over ${formatMoney(commerce.freeShippingOver)}.`
+  return {
+    title,
+    description,
+    alternates: { canonical: `/product/${p.slug}` },
+    openGraph: { title, description, type: 'website', url: `/product/${p.slug}` },
+  }
 }
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const p = bySlug((await params).slug)
   if (!p) notFound()
-  const off = Math.round(((p.mrp - p.price) / p.mrp) * 100)
-  const inKit = p.includes?.map((s) => bySlug(s)!).filter(Boolean)
-  const related = products.filter((x) => x.slug !== p.slug && !x.includes && x.concerns.some((c) => p.concerns.includes(c))).slice(0, 4)
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Product',
-    name: p.name,
-    description: p.description,
-    offers: { '@type': 'Offer', priceCurrency: 'INR', price: p.price / 100, availability: p.preorder ? 'https://schema.org/PreOrder' : 'https://schema.org/InStock' },
-  }
-  return (
-    <div className="container-x py-10">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <p className="text-sm text-mist"><Link href="/shop" className="hover:text-clay">Shop</Link> / {p.name}</p>
-      <div className="mt-6 grid gap-10 md:grid-cols-2">
-        <div className="rounded-3xl bg-sand/70 p-10">
-          <ProductArt product={p} className="mx-auto h-80 md:h-[28rem]" />
-        </div>
-        <div>
-          {p.preorder && <p className="mb-2 inline-block rounded-full bg-clay/15 px-3 py-1 text-xs font-medium text-clay">Pre-order · {p.preorder}</p>}
-          <h1 className="text-4xl text-moss">{p.name}</h1>
-          <p className="mt-2 text-mist">{p.short}</p>
-          <p className="mt-5 text-3xl">
-            {formatMoney(p.price)} <span className="text-lg text-mist line-through">{formatMoney(p.mrp)}</span>{' '}
-            <span className="text-base text-clay">{off}% off</span>
-          </p>
-          <p className="text-xs text-mist">Inclusive of all taxes · {p.size}</p>
-          <div className="mt-6 max-w-sm"><AddToCart slug={p.slug} preorder={!!p.preorder} /></div>
-          <div className="mt-6 flex flex-wrap gap-2">
-            {p.keyActives.map((a) => <span key={a} className="rounded-full border border-moss/25 px-3 py-1 text-xs text-moss">{a}</span>)}
-          </div>
-          <p className="mt-8 leading-relaxed">{p.description}</p>
+  const upiPrice = p.price - Math.round((p.price * commerce.upiDiscountPct) / 100)
+  const parts = p.includes?.map((s) => bySlug(s)!)
+  const inKits = products.filter((k) => k.includes?.includes(p.slug))
+  const related = products.filter((x) => x.slug !== p.slug && !x.includes && !p.includes?.includes(x.slug) && x.concerns.some((c) => p.concerns.includes(c))).slice(0, 4)
 
-          {inKit && (
-            <div className="mt-8">
-              <h2 className="text-xl text-moss">In this kit</h2>
-              <ul className="mt-3 space-y-2">
-                {inKit.map((k) => (
-                  <li key={k.slug}><Link href={`/product/${k.slug}`} className="text-sm underline decoration-clay/50 underline-offset-4 hover:text-clay">{k.name}</Link> <span className="text-xs text-mist">· {k.size}</span></li>
+  return (
+    <div className="container-x pb-28 pt-6 md:pb-10 md:pt-10">
+      <JsonLd
+        data={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'Product',
+            name: p.name,
+            description: p.description,
+            sku: p.slug,
+            brand: { '@type': 'Brand', name: brand.name },
+            category: 'Skin care',
+            url: `${brand.siteUrl}/product/${p.slug}`,
+            offers: {
+              '@type': 'Offer',
+              priceCurrency: 'INR',
+              price: p.price / 100,
+              url: `${brand.siteUrl}/product/${p.slug}`,
+              availability: commerce.preorder ? 'https://schema.org/PreOrder' : 'https://schema.org/InStock',
+              seller: { '@type': 'Organization', name: brand.name },
+            },
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Shop', item: `${brand.siteUrl}/shop` },
+              { '@type': 'ListItem', position: 2, name: p.shortName, item: `${brand.siteUrl}/product/${p.slug}` },
+            ],
+          },
+        ]}
+      />
+      <nav aria-label="Breadcrumb" className="text-sm text-mist">
+        <Link href="/shop" className="hover:text-clay">Shop</Link> <span aria-hidden="true">/</span> <span aria-current="page">{p.shortName}</span>
+      </nav>
+
+      <div className="mt-5 grid gap-8 md:grid-cols-2 md:gap-12">
+        <ProductGallery product={p} />
+        <div>
+          {commerce.preorder && <p className="mb-3 inline-block rounded-full bg-clay/10 px-3 py-1 text-xs font-semibold text-clay">Pre-order · we confirm your dispatch date on WhatsApp</p>}
+          <h1 className="text-3xl leading-tight text-moss md:text-4xl">{p.name}</h1>
+          <p className="mt-2 text-mist">{p.tagline}</p>
+          <div className="mt-5"><Price product={p} size="lg" /></div>
+          <p className="mt-1 text-xs text-mist">Inclusive of all taxes · {p.size}{parts ? ` · ${formatMoney(separatePrice(p) - p.price)} less than buying separately` : ''}</p>
+          <p className="mt-2 text-sm font-medium text-moss">{formatMoney(upiPrice)} when you pay by UPI ({commerce.upiDiscountPct}% off)</p>
+
+          <div className="mt-6 max-w-md"><AddToCart slug={p.slug} name={p.shortName} price={p.price} /></div>
+
+          <ul className="mt-6 space-y-1.5 text-sm">{p.benefits.map((b) => <li key={b}>✓ {b}</li>)}</ul>
+          <p className="mt-6 leading-relaxed text-ink/90">{p.description}</p>
+
+          {parts && (
+            <div className="mt-6 rounded-2xl bg-sand/60 p-4">
+              <h2 className="font-sans text-sm font-semibold tracking-normal">What is in the box</h2>
+              <ul className="mt-3 grid grid-cols-2 gap-3">
+                {parts.map((s) => (
+                  <li key={s.slug}>
+                    <Link href={`/product/${s.slug}`} className="flex items-center gap-2">
+                      <span className="w-12 shrink-0 overflow-hidden rounded-lg"><ProductArt product={s} className="aspect-[4/5] w-full" /></span>
+                      <span className="text-xs leading-tight">{s.shortName}<span className="block text-mist">{s.size}</span></span>
+                    </Link>
+                  </li>
                 ))}
               </ul>
             </div>
           )}
 
+          {inKits.map((k) => (
+            <Link key={k.slug} href={`/product/${k.slug}`} className="mt-5 flex items-center justify-between gap-3 rounded-2xl border border-moss/30 p-4 hover:bg-moss/5">
+              <span className="text-sm"><b>Part of the {k.shortName}</b><br /><span className="text-mist">Get the full routine for {formatMoney(k.price)} and save {formatMoney(separatePrice(k) - k.price)}</span></span>
+              <span aria-hidden="true" className="text-moss">→</span>
+            </Link>
+          ))}
+
           <div className="mt-8 divide-y divide-ink/10 border-y border-ink/10">
-            <details className="py-4" open>
-              <summary className="cursor-pointer font-medium">How to use</summary>
-              <p className="mt-2 text-sm text-mist">{p.how}</p>
-            </details>
-            <details className="py-4">
-              <summary className="cursor-pointer font-medium">Ingredients</summary>
-              <p className="mt-2 text-sm text-mist">{p.ingredients}</p>
-            </details>
-            <details className="py-4">
-              <summary className="cursor-pointer font-medium">Shipping & returns</summary>
-              <p className="mt-2 text-sm text-mist">Dispatched in 1 to 2 working days, delivered in 3 to 7 days across India. 7-day returns on unused products. See our <Link href="/policy/returns" className="underline">returns policy</Link>.</p>
-            </details>
+            <details className="py-4" open><summary className="cursor-pointer font-medium">How to use</summary><p className="mt-2 text-sm text-mist">{p.how}</p></details>
+            <details className="py-4"><summary className="cursor-pointer font-medium">Ingredients</summary><p className="mt-2 text-sm text-mist">{p.ingredients}</p></details>
+            <details className="py-4"><summary className="cursor-pointer font-medium">Best for</summary>
+              <p className="mt-2 text-sm text-mist">{p.skinTypes}. Targets: {p.concerns.map((c) => concernLabels[c].toLowerCase()).join(', ')}.</p></details>
+            <details className="py-4"><summary className="cursor-pointer font-medium">Shipping & returns</summary>
+              <p className="mt-2 text-sm text-mist">Free shipping over {formatMoney(commerce.freeShippingOver)}. Full details in our <Link href="/policy/shipping" className="underline">shipping</Link> and <Link href="/policy/returns" className="underline">returns</Link> policies.</p></details>
           </div>
-          <p className="mt-4 text-xs text-mist">Patch test on your inner arm before first use. Cosmetic product, not a medicine.</p>
+          <p className="mt-4 text-xs text-mist">Patch test on your inner arm before first use. Cosmetic product, not a medicine. Questions? <a className="underline" target="_blank" rel="noreferrer" href={whatsappLink(`Hi Ojas, a question about ${p.shortName}:`)}>Ask on WhatsApp</a>.</p>
         </div>
       </div>
 
       {related.length > 0 && (
-        <section className="pt-20">
-          <h2 className="mb-6 text-2xl text-moss">Pairs well with</h2>
-          <div className="grid grid-cols-2 gap-5 lg:grid-cols-4">{related.map((r) => <ProductCard key={r.slug} product={r} />)}</div>
+        <section className="pt-16">
+          <h2 className="mb-6 text-2xl text-moss md:text-3xl">Pairs well with</h2>
+          <div className="rail">{related.map((r) => <ProductCard key={r.slug} product={r} />)}</div>
         </section>
       )}
     </div>

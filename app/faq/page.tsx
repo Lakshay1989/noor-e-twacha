@@ -1,23 +1,37 @@
 import type { Metadata } from 'next'
-import { brand } from '@/config/brand'
+import { brand, commerce } from '@/config/brand'
+import { formatMoney } from '@/lib/money'
+import { JsonLd } from '@/components/JsonLd'
 
-export const metadata: Metadata = { title: 'FAQ' }
+export const metadata: Metadata = {
+  title: 'FAQ: routines, ingredients, pre-orders & shipping',
+  description: 'Answers on using niacinamide with Vitamin C, sunscreen, patch testing, pre-orders, shipping and payments.',
+  alternates: { canonical: '/faq' },
+}
 
-const faqs = [
-  ['Will it suit my skin type?', 'Our range is built to suit oily, combination and dry skin. Every product is fragrance-free except the lip balm. Patch test on your inner arm before first use.'],
-  ['Can I use Vitamin C and Niacinamide together?', 'Yes. Many people use Vitamin C in the morning and Niacinamide at night, or layer them. Start slowly and see how your skin responds.'],
-  ['Do I really need sunscreen indoors?', 'If you sit near windows or step out at all, yes. UV is the biggest cause of tan and uneven tone. It is also what makes Vitamin C and salicylic acid work better.'],
-  ['When will I see results?', 'Hydration is immediate. For tone and texture, expect 4 to 8 weeks of consistent use. Skin renews on its own schedule.'],
-  ['How long does delivery take?', 'We dispatch in 1 to 2 working days. Delivery takes 3 to 7 days depending on your pincode.'],
-  ['What does pre-order mean?', 'Pre-order products are in their final testing or production. We tell you the expected ship time on the product page, and you can cancel any time before dispatch for a full refund.'],
-  ['Are your products cruelty-free?', 'We do not test on animals.'],
-  ['Are these products medicines?', 'No. They are cosmetic products. For persistent acne, eczema or other skin conditions, please see a dermatologist.'],
+const faqs: [string, string][] = [
+  ['Can I use Vitamin C and Niacinamide together?', 'Many people do: Vitamin C in the morning and niacinamide at night, or layered. Start with one active at a time and add the second once your skin is comfortable.'],
+  ['Do I need sunscreen if I am indoors most of the day?', 'If you sit near a window or step out at all, yes. UV exposure is the biggest driver of tan and uneven tone, and sunscreen protects the gains from actives like Vitamin C.'],
+  ['How do I patch test?', 'Apply a small amount on your inner forearm or behind the ear, wait 24 hours, and check for redness or itching. Do not use a product that irritates your skin.'],
+  ['How often should I use salicylic acid?', 'Start every other evening, then increase if your skin is comfortable. Always wear sunscreen the next morning.'],
+  ['When will I see results?', 'Hydration shows quickly. For tone, oil and texture, consistent use for four to eight weeks is a realistic window. Results vary by person.'],
+  ['What does pre-order mean?', 'Our first batch is open for pre-order. When you order, we confirm your dispatch date on WhatsApp. You can cancel before dispatch for a full refund.'],
+  ['How do I pay?', `Pay by UPI and get ${commerce.upiDiscountPct}% off, or choose cash on delivery (a ${formatMoney(commerce.codFee)} handling fee applies). After you place an order, you confirm it on WhatsApp.`],
+  ['What does shipping cost?', `Free over ${formatMoney(commerce.freeShippingOver)}, otherwise ${formatMoney(commerce.shippingFee)}.`],
+  ['Are these medicines?', 'No. They are cosmetic products. For persistent acne, eczema or any skin condition, please see a dermatologist.'],
 ]
 
 export default function FAQ() {
   return (
-    <div className="container-x max-w-3xl py-16">
-      <h1 className="text-4xl text-moss">Questions, answered</h1>
+    <div className="container-x max-w-3xl py-14 md:py-20">
+      <JsonLd
+        data={{
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: faqs.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+        }}
+      />
+      <h1 className="text-4xl text-moss md:text-5xl">Questions, answered</h1>
       <div className="mt-8 divide-y divide-ink/10 border-y border-ink/10">
         {faqs.map(([q, a]) => (
           <details key={q} className="py-5">
@@ -26,7 +40,7 @@ export default function FAQ() {
           </details>
         ))}
       </div>
-      <p className="mt-8 text-sm text-mist">Still unsure? WhatsApp us or write to <a className="underline" href={`mailto:${brand.email}`}>{brand.email}</a>.</p>
+      <p className="mt-8 text-sm text-mist">Still unsure? Message us on WhatsApp or write to <a className="underline" href={`mailto:${brand.email}`}>{brand.email}</a>.</p>
     </div>
   )
 }

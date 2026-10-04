@@ -17,6 +17,9 @@ npm test && npm run typecheck && npx next build
 - `app/api/order/route.ts` — validates an order, prices it, fires the optional webhook, returns the WhatsApp link.
 - `components/ProductArt.tsx` — drawn packaging until real photos exist.
 
+See `docs/AUDIT.md` (what changed and what needs you) and `docs/PRICING.md` (Amazon.in benchmarks, pricing logic).
+Set `commerce.preorder` to `false` in `config/brand.ts` once you hold real stock.
+
 ## Before you take real orders (needs the founder)
 1. **Brand name:** "Ojas" is a placeholder. Check trademark (IP India search, class 3) and the domain.
 2. **Real WhatsApp number** in `.env.local` / Vercel env (`NEXT_PUBLIC_WHATSAPP`).

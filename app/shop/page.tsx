@@ -1,28 +1,23 @@
-import Link from 'next/link'
-import clsx from 'clsx'
 import type { Metadata } from 'next'
-import { products, concernLabels, type Concern } from '@/data/products'
+import { products } from '@/data/products'
+import { collections } from '@/lib/collections'
 import { ProductCard } from '@/components/ProductCard'
+import { CollectionNav } from '@/components/CollectionNav'
 
-export const metadata: Metadata = { title: 'Shop' }
+export const metadata: Metadata = {
+  title: 'Shop all skincare: serums, sunscreen, moisturiser & kits',
+  description: 'Browse every Ojas product: niacinamide, vitamin C and salicylic acid serums, ceramide moisturiser, SPF 50 sunscreen, cleanser and routine kits.',
+  alternates: { canonical: '/shop' },
+}
 
-export default async function Shop({ searchParams }: { searchParams: Promise<{ concern?: string }> }) {
-  const { concern } = await searchParams
-  const active = concern && concern in concernLabels ? (concern as Concern) : null
-  const list = active ? products.filter((p) => p.concerns.includes(active)) : products
+export default function Shop() {
   return (
-    <div className="container-x py-12">
-      <h1 className="text-4xl text-moss">{active ? concernLabels[active] : 'All products'}</h1>
-      <div className="mt-6 flex flex-wrap gap-2">
-        <Link href="/shop" className={clsx('rounded-full border px-4 py-2 text-sm', !active ? 'border-moss bg-moss text-cream' : 'border-moss/30 text-moss')}>All</Link>
-        {(Object.keys(concernLabels) as Concern[]).map((c) => (
-          <Link key={c} href={`/shop?concern=${c}`} className={clsx('rounded-full border px-4 py-2 text-sm', active === c ? 'border-moss bg-moss text-cream' : 'border-moss/30 text-moss')}>
-            {concernLabels[c]}
-          </Link>
-        ))}
-      </div>
-      <div className="mt-10 grid grid-cols-2 gap-5 lg:grid-cols-4">
-        {list.map((p) => <ProductCard key={p.slug} product={p} />)}
+    <div className="container-x py-10 md:py-14">
+      <h1 className="text-4xl text-moss md:text-5xl">All products</h1>
+      <p className="mt-2 max-w-xl text-mist">{products.length} products. Each active and its percentage is listed on the product page.</p>
+      <CollectionNav active="all" collections={collections} />
+      <div className="mt-8 grid grid-cols-2 gap-x-4 gap-y-9 lg:grid-cols-4">
+        {products.map((p) => <ProductCard key={p.slug} product={p} />)}
       </div>
     </div>
   )
