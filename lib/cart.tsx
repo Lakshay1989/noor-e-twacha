@@ -12,7 +12,7 @@ interface CartCtx {
 }
 
 const Ctx = createContext<CartCtx | null>(null)
-const KEY = 'ojas-cart-v2'
+const KEY = 'noor-cart-v1'
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartLine[]>([])

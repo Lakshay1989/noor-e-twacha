@@ -1,4 +1,4 @@
-# Ojas — skincare store
+# Noor — skincare store
 
 A standalone D2C skincare brand site. Next.js 15 · TypeScript · Tailwind v4. No database: orders are validated and priced on the
 server, then sent to your WhatsApp (and optionally a Google Sheet via webhook).
@@ -21,7 +21,7 @@ See `docs/AUDIT.md` (what changed and what needs you) and `docs/PRICING.md` (Ama
 Set `commerce.preorder` to `false` in `config/brand.ts` once you hold real stock.
 
 ## Before you take real orders (needs the founder)
-1. **Brand name:** "Ojas" is a placeholder. Check trademark (IP India search, class 3) and the domain.
+1. **Brand name:** "Noor" is a placeholder. Check trademark (IP India search, class 3) and the domain.
 2. **Real WhatsApp number** in `.env.local` / Vercel env (`NEXT_PUBLIC_WHATSAPP`).
 3. **Manufacturer:** a licensed cosmetics contract manufacturer must confirm every formula, percentage and ingredient list in
    `data/products.ts` and handle the state cosmetics licence and BIS/label rules. Do not sell on drafts.

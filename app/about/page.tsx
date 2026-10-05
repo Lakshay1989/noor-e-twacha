@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Our story: why we make skincare for Indian weather',
-  description: 'Ojas makes simple, honest skincare for heat, humidity and pollution, with every active and percentage on the pack.',
+  description: 'Noor makes simple, honest skincare for heat, humidity and pollution, with every active and percentage on the pack.',
   alternates: { canonical: '/about' },
 }
 
@@ -18,7 +18,7 @@ export default function About() {
   return (
     <div className="container-x max-w-3xl py-14 md:py-20">
       <p className="eyebrow">Our story</p>
-      <h1 className="mt-3 text-4xl text-moss md:text-5xl">Ojas is the Sanskrit word for radiance from within.</h1>
+      <h1 className="mt-3 text-4xl text-moss md:text-5xl">Noor means light, the glow of healthy skin.</h1>
       <p className="mt-6 text-lg leading-relaxed text-mist">
         Good skincare in India tends to be either imported and expensive, or inexpensive and confusing. We are building a middle path: effective formulas, clear labels and fair prices, made for the skin and the weather we actually live with.
       </p>

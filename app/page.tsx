@@ -10,7 +10,7 @@ import { Price } from '@/components/Price'
 import { QuickAdd } from '@/components/QuickAdd'
 
 export const metadata: Metadata = {
-  title: 'Ojas | Honest skincare for Indian weather: serums, sunscreen & moisturiser',
+  title: 'Noor | Honest skincare for Indian weather: serums, sunscreen & moisturiser',
   description:
     'Niacinamide 10%, Vitamin C 10%, salicylic acid 2%, ceramide moisturiser and SPF 50 sunscreen. Every active and its percentage is printed on the pack. Pre-orders open.',
   alternates: { canonical: '/' },
@@ -59,7 +59,7 @@ export default function Home() {
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <Link href="#heroes" className="btn btn-primary">Shop our hero products</Link>
-              <a href={whatsappLink('Hi Ojas, help me pick a routine for my skin.')} target="_blank" rel="noreferrer" className="btn btn-ghost">Get a routine on WhatsApp</a>
+              <a href={whatsappLink('Hi Noor, help me pick a routine for my skin.')} target="_blank" rel="noreferrer" className="btn btn-ghost">Get a routine on WhatsApp</a>
             </div>
             <ul className="mt-7 flex flex-wrap gap-x-6 gap-y-2 text-sm text-mist">
               <li>✓ Full ingredient lists</li><li>✓ {commerce.upiDiscountPct}% off on UPI</li><li>✓ Cash on delivery</li>
@@ -185,7 +185,7 @@ export default function Home() {
 
       {/* WHY DIRECT */}
       <section className="container-x pt-16 md:pt-24">
-        <h2 className="text-3xl text-moss md:text-4xl">Why buy from Ojas directly</h2>
+        <h2 className="text-3xl text-moss md:text-4xl">Why buy from Noor directly</h2>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
             [`${commerce.upiDiscountPct}% off on UPI`, 'Our direct-store discount, applied automatically at checkout.'],
@@ -204,7 +204,7 @@ export default function Home() {
           <h2 className="text-3xl text-moss md:text-4xl">Not sure where to start?</h2>
           <p className="mx-auto mt-2 max-w-md text-mist">Tell us your skin type and your main concern. We will suggest a simple routine, no pressure.</p>
           <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
-            <a href={whatsappLink('Hi Ojas, my skin type is ___ and my main concern is ___.')} target="_blank" rel="noreferrer" className="btn btn-primary">Message us on WhatsApp</a>
+            <a href={whatsappLink('Hi Noor, my skin type is ___ and my main concern is ___.')} target="_blank" rel="noreferrer" className="btn btn-primary">Message us on WhatsApp</a>
             <Link href="/faq" className="btn btn-ghost">Read the FAQ</Link>
           </div>
         </div>

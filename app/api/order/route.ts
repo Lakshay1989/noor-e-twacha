@@ -25,7 +25,7 @@ export async function POST(req: Request) {
   const q = quote(o.items, o.payment)
   if (q.lines.length === 0) return NextResponse.json({ error: 'Cart is empty' }, { status: 400 })
 
-  const id = `OJ-${Date.now().toString(36).toUpperCase()}${Math.random().toString(36).slice(2, 5).toUpperCase()}`
+  const id = `NR-${Date.now().toString(36).toUpperCase()}${Math.random().toString(36).slice(2, 5).toUpperCase()}`
   const text = [
     `New order ${id}`,
     ...q.lines.map((l) => `• ${l.qty} x ${l.name} (${formatMoney(l.total)})`),

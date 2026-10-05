@@ -116,7 +116,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             <details className="py-4"><summary className="cursor-pointer font-medium">Shipping & returns</summary>
               <p className="mt-2 text-sm text-mist">Free shipping over {formatMoney(commerce.freeShippingOver)}. Full details in our <Link href="/policy/shipping" className="underline">shipping</Link> and <Link href="/policy/returns" className="underline">returns</Link> policies.</p></details>
           </div>
-          <p className="mt-4 text-xs text-mist">Patch test on your inner arm before first use. Cosmetic product, not a medicine. Questions? <a className="underline" target="_blank" rel="noreferrer" href={whatsappLink(`Hi Ojas, a question about ${p.shortName}:`)}>Ask on WhatsApp</a>.</p>
+          <p className="mt-4 text-xs text-mist">Patch test on your inner arm before first use. Cosmetic product, not a medicine. Questions? <a className="underline" target="_blank" rel="noreferrer" href={whatsappLink(`Hi Noor, a question about ${p.shortName}:`)}>Ask on WhatsApp</a>.</p>
         </div>
       </div>
 

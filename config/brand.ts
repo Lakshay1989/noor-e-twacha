@@ -1,13 +1,13 @@
 // The only place the brand lives. Rename here and it changes everywhere.
 export const brand = {
-  name: 'Ojas',
+  name: 'Noor',
   tagline: 'Skincare that keeps up with Indian weather.',
   description:
     'Honest skincare for heat, humidity and pollution. Every active and its percentage is printed on the pack, with simple routines and fair prices.',
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ojasskin.in',
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://noorskin.in',
   // Country code + number, no "+". Replace with the real business WhatsApp number.
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP ?? '919999999999',
-  email: 'hello@ojasskin.in', // placeholder until the domain's mailbox exists
+  email: 'hello@noorskin.in', // placeholder until the domain's mailbox exists
 } as const
 
 export const commerce = {

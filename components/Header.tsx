@@ -44,7 +44,7 @@ export function Header() {
               {open ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
             </svg>
           </button>
-          <Link href="/" aria-label="Ojas home" className="text-moss"><Logo /></Link>
+          <Link href="/" aria-label="Noor home" className="text-moss"><Logo /></Link>
           <nav aria-label="Main" className="hidden items-center gap-7 text-sm md:flex">
             {links.map((l) => <Link key={l.href} href={l.href} className="hover:text-clay">{l.label}</Link>)}
           </nav>
