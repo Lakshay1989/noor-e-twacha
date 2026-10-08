@@ -6,7 +6,7 @@ import { CollectionNav } from '@/components/CollectionNav'
 
 export const metadata: Metadata = {
   title: 'Shop all skincare: serums, sunscreen, moisturiser & kits',
-  description: 'Browse every Noor product: niacinamide, vitamin C and salicylic acid serums, ceramide moisturiser, SPF 50 sunscreen, cleanser and routine kits.',
+  description: 'Browse every Noor-e-Twacha product: niacinamide, vitamin C and salicylic acid serums, ceramide moisturiser, SPF 50 sunscreen, cleanser and routine kits.',
   alternates: { canonical: '/shop' },
 }
 

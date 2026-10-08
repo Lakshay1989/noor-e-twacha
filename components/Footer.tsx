@@ -12,7 +12,7 @@ export function Footer() {
         <div>
           <Logo className="text-cream" />
           <p className="mt-4 max-w-xs text-sm">{brand.description}</p>
-          <a href={whatsappLink('Hi Noor, I need help choosing a routine.')} target="_blank" rel="noreferrer" className="btn mt-5 border border-cream/30 text-cream hover:bg-cream/10">
+          <a href={whatsappLink('Hi Noor-e-Twacha, I need help choosing a routine.')} target="_blank" rel="noreferrer" className="btn mt-5 border border-cream/30 text-cream hover:bg-cream/10">
             Chat on WhatsApp
           </a>
         </div>

@@ -19,7 +19,7 @@ export function ProductArt({ product: p, className = '', bare = false }: { produ
     return (
       <g>
         <rect x={x} y={y} width={w} height={h} rx="7" fill="#fffaf1" />
-        <text x={cx} y={y + 20} textAnchor="middle" fontSize="10" letterSpacing="4" fontWeight="700" fill={t.accent} style={serif}>NOOR</text>
+        <text x={cx} y={y + 20} textAnchor="middle" fontSize="8" fontWeight="700" fill={t.accent} style={serif} textLength={Math.min(w - 18, 84)} lengthAdjust="spacingAndGlyphs">NOOR-E-TWACHA</text>
         <line x1={cx - 12} x2={cx + 12} y1={y + 28} y2={y + 28} stroke={t.accent} strokeOpacity=".4" />
         <text x={cx} y={y + 46} textAnchor="middle" fontSize="8.5" letterSpacing="1.2" fontWeight="600" fill="#1f2a24" style={sans}>{l1}</text>
         {l2 && <text x={cx} y={y + 58} textAnchor="middle" fontSize="8.5" letterSpacing="1.2" fontWeight="600" fill="#1f2a24" style={sans}>{l2}</text>}
@@ -105,7 +105,7 @@ export function ProductArt({ product: p, className = '', bare = false }: { produ
           ))}
           <rect x="82" y="196" width="236" height="248" rx="14" fill={t.glass} stroke={t.cap} strokeOpacity=".3" />
           <rect x="74" y="180" width="252" height="48" rx="12" fill={t.cap} />
-          <text x="200" y="212" textAnchor="middle" fontSize="15" letterSpacing="8" fontWeight="700" fill="#fffaf1" style={serif}>NOOR</text>
+          <text x="200" y="212" textAnchor="middle" fontSize="14" fontWeight="700" fill="#fffaf1" style={serif} textLength="190" lengthAdjust="spacingAndGlyphs">NOOR-E-TWACHA</text>
           <text x="200" y="300" textAnchor="middle" fontSize="11" letterSpacing="3" fontWeight="600" fill={t.accent} style={sans}>{l1}</text>
           {l2 && <text x="200" y="316" textAnchor="middle" fontSize="11" letterSpacing="3" fontWeight="600" fill={t.accent} style={sans}>{l2}</text>}
           <text x="200" y="392" textAnchor="middle" fontSize="64" fontWeight="600" fill={t.accent} style={serif}>{label.big}</text>

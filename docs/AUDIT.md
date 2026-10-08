@@ -44,7 +44,7 @@
 ## Needs a human (I cannot do these)
 1. Confirm every formula, % and ingredient list with the manufacturer, including the new 10% niacinamide.
 2. Independent SPF/PA test before dispatching sunscreen; edit the claim to the report.
-3. Real WhatsApp number, domain, mailbox, trademark check for "Noor".
+3. Real WhatsApp number, domain, mailbox, trademark check for "Noor-e-Twacha".
 4. Real product photography (replace `ProductArt`) and real customer reviews once they exist.
 5. Confirm return window and COD fee in `config/brand.ts` and `app/policy/[slug]`.
 6. Re-check Amazon prices live; send me landed costs to finalise margins.
